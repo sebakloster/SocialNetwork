@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A social network made with NodeJS",
+    "version": "1.0.0",
+    "title": "Node Social Network"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "list all users",
+        "operationId": "listUser",
+        "responses": {
+          "default": {
+            "description": "List of users"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "Creates a user in our app",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

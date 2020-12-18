@@ -2,19 +2,25 @@ const db = {
   user: [{ id: 1, name: "seba" }],
 };
 
-function list(table) {
+async function list(table) {
   return db[table];
 }
-function get(table, id) {
-  let col = list(table);
-  return col.find((item) => item.id === id) || null;
+async function get(table, id) {
+  let col = await list(table);
+  return col.find((item) => item.id == id) || null;
 }
-function upsert(table, data) {
-  db[collection].push(data);
+async function upsert(table, data) {
+  db.user.push(data);
+  return data;
 }
 
-function remove(table, id) {
-  return true;
+async function remove(table, id) {
+  if (!db.user.find((item) => item.id == id)) {
+    return "Invalid User id";
+  } else {
+    db.user.pop(id);
+    return `User ${id} deleted`;
+  }
 }
 
 module.exports = {
