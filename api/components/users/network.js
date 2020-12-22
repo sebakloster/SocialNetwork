@@ -34,7 +34,6 @@ router.delete("/:id", function (req, res) {
 });
 
 router.post("/", function (req, res) {
-  console.log(req.body);
   controller
     .create(req.body)
     .then((user) => {
