@@ -1,45 +1,49 @@
 const express = require("express");
 const router = express.Router();
-
+const secure = require("./secure");
 const response = require("../../../network/response");
 const controller = require("./index");
 
 router.use(express.json());
 
-router.get("/", function (req, res) {
-  const lista = controller
+// Routes
+router.get("/", list);
+router.get("/:id", get);
+router.post("/", upsert);
+router.put("/", secure("update"), upsert);
+
+// Internal functions
+function list(req, res) {
+  controller
     .list()
-    .then(() => {
+    .then((lista) => {
       response.success(req, res, lista, 200);
     })
-    .catch((err) => response.error(req, res, err.message, 500));
-});
+    .catch((err) => {
+      response.error(req, res, err.message, 500);
+    });
+}
 
-router.get("/:id", function (req, res) {
+function get(req, res) {
   controller
     .get(req.params.id)
     .then((user) => {
       response.success(req, res, user, 200);
     })
-    .catch((err) => response.error(req, res, err.message, 500));
-});
+    .catch((err) => {
+      response.error(req, res, err.message, 500);
+    });
+}
 
-router.delete("/:id", function (req, res) {
+function upsert(req, res) {
   controller
-    .remove(req.params.id)
-    .then((message) => {
-      response.success(req, res, message, 200);
-    })
-    .catch((err) => response.error(req, res, err.message, 500));
-});
-
-router.post("/", function (req, res) {
-  controller
-    .create(req.body)
+    .upsert(req.body)
     .then((user) => {
-      response.success(req, res, user, 200);
+      response.success(req, res, user, 201);
     })
-    .catch((err) => response.error(req, res, err.message, 500));
-});
+    .catch((err) => {
+      response.error(req, res, err.message, 500);
+    });
+}
 
 module.exports = router;

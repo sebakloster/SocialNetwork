@@ -16,13 +16,13 @@ module.exports = function (injectedStore) {
   function remove(id) {
     return store.remove(TABLE, id);
   }
-  async function create(data) {
+  async function upsert(data) {
     const user = {
       name: data.name,
       username: data.username,
     };
 
-    if (data.id && !isNaN(data.id)) {
+    if (data.id) {
       user.id = data.id;
     } else {
       user.id = nanoid();
@@ -42,6 +42,6 @@ module.exports = function (injectedStore) {
     list,
     get,
     remove,
-    create,
+    upsert,
   };
 };
