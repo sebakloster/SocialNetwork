@@ -12,6 +12,9 @@ const check = {
       throw error("You cant do this", 401);
     }
   },
+  logged: function (req) {
+    const decoded = decodeHeader(req);
+  },
 };
 
 function verify(token) {

@@ -12,12 +12,12 @@ const dbconfig = {
 // Connection
 let connection;
 
-function handeCon() {
+function handleCon() {
   connection = mysql.createConnection(dbconfig);
   connection.connect((err) => {
     if (err) {
       console.error("[db error]", err);
-      setTimeout(handeCon, 2000);
+      setTimeout(handleCon, 2000);
     } else {
       console.log("DB connected");
     }
@@ -26,13 +26,13 @@ function handeCon() {
   connection.on("error", (err) => {
     console.error("[db error]", err);
     if (error.code === "PROTOCOL_CONNECTION_LOST") {
-      handeCon();
+      handleCon();
     } else {
       throw err;
     }
   });
 }
-handeCon();
+handleCon();
 
 function list(table) {
   return new Promise((resolve, reject) => {
